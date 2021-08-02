@@ -2,12 +2,10 @@ import '../styles/globals.css';
 import 'tailwindcss/tailwind.css';
 import { Auth } from '@supabase/ui';
 import { createClient } from '@supabase/supabase-js';
-import { SupabaseContext } from '..//components';
+import { Layout, SupabaseContext } from '..//components';
+import { projectUrl } from '../constants';
 
-const supabase = createClient(
-  'https://kbqgrjcttayfuajohvny.supabase.co',
-  process.env.NEXT_PUBLIC_SUPABASE_KEY
-);
+const supabase = createClient(projectUrl, process.env.NEXT_PUBLIC_SUPABASE_KEY);
 
 const Container = ({ children, Component, pageProps }) => {
   const { user } = Auth.useUser();
@@ -27,9 +25,11 @@ const Container = ({ children, Component, pageProps }) => {
 function MyApp({ Component, pageProps }) {
   return (
     <Auth.UserContextProvider supabaseClient={supabase}>
-      <Container Component={Component} pageProps={pageProps}>
-        <Auth supabaseClient={supabase} />
-      </Container>
+      <Layout>
+        <Container Component={Component} pageProps={pageProps}>
+          <Auth supabaseClient={supabase} />
+        </Container>
+      </Layout>
     </Auth.UserContextProvider>
   );
 }
