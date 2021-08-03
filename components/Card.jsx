@@ -3,6 +3,7 @@ import { Card as SupabaseCard } from '@supabase/ui';
 export const Card = ({ listing }) => {
   return (
     <SupabaseCard
+      className='cursor-pointer'
       title={`Created by ${listing.created_by}`}
       cover={[
         <img

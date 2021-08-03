@@ -7,7 +7,7 @@ export default function Index() {
   const { user } = Auth.useUser();
 
   const [formData, setFormData] = useState({ from_city: '', to_city: '' });
-  const [loading, setLoading] = useState(false);
+  const [formState, setFormState] = useState('IDLE');
   const [files, setFiles] = useState([]);
 
   const onDrop = useCallback((acceptedFiles) => {
@@ -24,7 +24,7 @@ export default function Index() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    setFormState('LOADING');
 
     console.log(files);
 
@@ -48,7 +48,7 @@ export default function Index() {
       files.map((file, idx) => uploadImage(file, listingId, idx))
     );
 
-    setLoading(false);
+    setFormState('SUCCESS');
   };
 
   const thumbs = (
@@ -63,50 +63,60 @@ export default function Index() {
 
   return (
     <div>
-      <Typography.Text strong style={{ fontSize: '2rem' }}>
-        Create a listing
-      </Typography.Text>
-
-      <form className="flex flex-col gap-6 mt-6 w-6/12">
-        <div className="flex gap-12">
-          <Input
-            label="From"
-            value={formData.from_city}
-            onChange={(e) =>
-              setFormData({ ...formData, from_city: e.target.value })
-            }
-          />
-          <Input
-            label="To"
-            value={formData.to_city}
-            onChange={(e) =>
-              setFormData({ ...formData, to_city: e.target.value })
-            }
-          />
+      {formState === 'SUCCESS' ? (
+        <div>
+          <Alert withIcon title="Success">
+            bla bla bla
+          </Alert>
         </div>
+      ) : (
+        <>
+          <Typography.Text strong style={{ fontSize: '2rem' }}>
+            Create a listing
+          </Typography.Text>
 
-        <Typography.Text>Upload images</Typography.Text>
-        <div
-          {...getRootProps()}
-          className="cursor-pointer p-6 border-2 border-dashed rounded-lg text-center"
-        >
-          <input {...getInputProps()} />
-          {isDragActive ? (
-            <p>Drop the files here ...</p>
-          ) : (
-            <p>Drag n drop some files here, or click to select files</p>
-          )}
-        </div>
-        <aside>{thumbs}</aside>
+          <form className="flex flex-col gap-6 mt-6 w-6/12">
+            <div className="flex gap-12">
+              <Input
+                label="Moving from"
+                value={formData.from_city}
+                onChange={(e) =>
+                  setFormData({ ...formData, from_city: e.target.value })
+                }
+              />
+              <Input
+                label="Moving to"
+                value={formData.to_city}
+                onChange={(e) =>
+                  setFormData({ ...formData, to_city: e.target.value })
+                }
+              />
+            </div>
 
-        <Button size="large" onClick={onSubmit} loading={loading}>
-          Create
-        </Button>
-      </form>
+            <Typography.Text>Upload images</Typography.Text>
+            <div
+              {...getRootProps()}
+              className="cursor-pointer p-6 border-2 border-dashed rounded-lg text-center"
+            >
+              <input {...getInputProps()} />
+              {isDragActive ? (
+                <p>Drop the files here ...</p>
+              ) : (
+                <p>Drag n drop some files here, or click to select files</p>
+              )}
+            </div>
+            <aside>{thumbs}</aside>
 
-      <Alert title="Success" withIcon>
-        test
-      </Alert>
+            <Button
+              size="large"
+              onClick={onSubmit}
+              loading={formState === 'LOADING'}
+            >
+              Create
+            </Button>
+          </form>
+        </>
+      )}
     </div>
   );
 }
