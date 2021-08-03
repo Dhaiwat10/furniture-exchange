@@ -62,7 +62,7 @@ export default function Index() {
   );
 
   return (
-    <div>
+    <div className=" mx-auto ">
       {formState === 'SUCCESS' ? (
         <div>
           <Alert withIcon title="Success">
@@ -75,8 +75,8 @@ export default function Index() {
             Create a listing
           </Typography.Text>
 
-          <form className="flex flex-col gap-6 mt-6 w-6/12">
-            <div className="flex gap-12">
+          <form className="flex flex-col gap-6 mt-6 w-11/12 lg:w-6/12 lg:mx-0 mx-auto">
+            <div className="flex gap-12 flex-col lg:flex-row">
               <Input
                 label="Moving from"
                 value={formData.from_city}
