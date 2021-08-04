@@ -9,9 +9,12 @@ const TopBar = () => {
 
   return (
     <div className="mb-12 my-6 flex items-center">
-      <div>
+      <div className="flex gap-4">
         <Typography.Link href="/" target="_self">
           Home
+        </Typography.Link>
+        <Typography.Link href="/new" target="_self">
+          New
         </Typography.Link>
       </div>
 
