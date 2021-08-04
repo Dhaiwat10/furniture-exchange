@@ -8,9 +8,11 @@ const TopBar = () => {
   const supabaseClient = useContext(SupabaseContext);
 
   return (
-    <div className="mb-12 flex w-full items-center">
+    <div className="mb-12 my-6 flex items-center">
       <div>
-        <Typography.Link href="/" target="_self">Home</Typography.Link>
+        <Typography.Link href="/" target="_self">
+          Home
+        </Typography.Link>
       </div>
 
       <div className="flex items-center ml-auto mr-0 gap-4">
@@ -34,7 +36,7 @@ export const Layout = ({ children }) => {
         <meta name="description" content="Supabase hackathon entry" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
+      <main className="w-11/12 sm:w-9/12 mx-auto">
         <TopBar />
         {children}
       </main>
