@@ -1,9 +1,14 @@
 import React from 'react';
+import { Button } from '@supabase/ui';
 
 export const Active = () => (
-  <div className="inline-block bg-green-600 p-2 rounded-xl text-white">OPEN</div>
+  <Button size="medium" disabled={true}>
+    OPEN
+  </Button>
 );
 
 export const InActive = () => (
-  <div className="inline-block bg-red-500 p-2 rounded-xl text-white">CLOSED</div>
+  <Button size="medium" danger={true} disabled={true}>
+    CLOSED
+  </Button>
 );
