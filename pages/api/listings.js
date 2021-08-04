@@ -72,3 +72,14 @@ export default async function handler(req, res) {
     res.status(200).json(output);
   }
 }
+
+export async function statusUpdate(listingId, currentStatus) {
+  const newStatus = currentStatus === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE';
+
+  const { error, data } = await supabase
+    .from('listings')
+    .update({ status: newStatus }, { id: listingId })
+    .eq('id', listingId);
+
+  return { error, data };
+}

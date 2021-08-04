@@ -32,7 +32,13 @@ const Listing = ({ listings }) => {
     e.preventDefault();
     setFormState('LOADING');
 
-    const oldComments = [...listings.filter(listing => listing.id === id)[0].comment_ids]
+    let oldComments = listings.filter((listing) => listing.id === id)[0].comment_ids;
+    
+    if (oldComments && oldComments.length > 0) {
+      oldComments = [
+        ...listings.filter((listing) => listing.id === id)[0].comment_ids,
+      ];
+    }
 
     const comment = {
       parent_listing_id: id,
@@ -40,7 +46,7 @@ const Listing = ({ listings }) => {
       content: newComment,
     };
 
-    const { data } = await createComment(comment, oldComments);
+    const { data } = await createComment(comment, oldComments && oldComments.length > 0 ? oldComments : []);
     console.log('data from comment uploading: ', data);
     setFormState('SUCCESS');
     setNewComment('');
@@ -57,33 +63,35 @@ const Listing = ({ listings }) => {
         })}
 
       <div className="text-xl mt-4 font-semibold">Comments</div>
-      {comments.comments && (comments.comments.length === 0 ? (
-        <div className="my-2 text-lg border-2 rounded-md p4 border-black border-opacity-5">
-          This listing has no comments yet.
-        </div>
-      ) : (
-        comments.comments.map((comment) => {
-          return (
-            <div
-              className="my-2 text-lg border-2 rounded-md p-4 border-black border-opacity-5"
-              key={comment.id}
-            >
-              <div className="mb-2 text-sm">
-                By <span className='font-semibold'>{comment.created_by}</span>
+      {comments.comments &&
+        (comments.comments.length === 0 ? (
+          <div className="my-2 text-lg border-2 rounded-md p4 border-black border-opacity-5">
+            This listing has no comments yet.
+          </div>
+        ) : (
+          comments.comments.map((comment) => {
+            return (
+              <div
+                className="my-2 text-lg border-2 rounded-md p-4 border-black border-opacity-5"
+                key={comment.id}
+              >
+                <div className="mb-2 text-sm">
+                  By <span className="font-semibold">{comment.created_by}</span>
+                </div>
+                {comment.content}
               </div>
-              {comment.content}
-            </div>
-          );
-        })
-      ))}
-        <Input.TextArea
-          disabled={formState === 'LOADING'}
-          value={newComment}
-          className="mt-8"
-          onChange={(e) => setNewComment(e.target.value)}
-          label="Create Comment"
-        />
+            );
+          })
+        ))}
+      <Input.TextArea
+        disabled={formState === 'LOADING'}
+        value={newComment}
+        className="mt-8"
+        onChange={(e) => setNewComment(e.target.value)}
+        label="Create Comment"
+      />
       <Button
+        disabled={newComment === ''}
         className="mt-4"
         size="large"
         onClick={onSubmit}
