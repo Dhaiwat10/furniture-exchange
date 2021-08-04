@@ -42,8 +42,8 @@ const Listing = ({ listings }) => {
 
     const { data } = await createComment(comment, oldComments);
     console.log('data from comment uploading: ', data);
-    setNewComment('');
     setFormState('SUCCESS');
+    setNewComment('');
     fetchComments();
   };
 
@@ -58,33 +58,31 @@ const Listing = ({ listings }) => {
 
       <div className="text-xl mt-4 font-semibold">Comments</div>
       {comments.comments && (comments.comments.length === 0 ? (
-        <div className="my-2 text-lg border-2 rounded-md p-2 border-black border-opacity-5">
+        <div className="my-2 text-lg border-2 rounded-md p4 border-black border-opacity-5">
           This listing has no comments yet.
         </div>
       ) : (
         comments.comments.map((comment) => {
           return (
             <div
-              className="my-2 text-lg border-2 rounded-md p-2 border-black border-opacity-5"
+              className="my-2 text-lg border-2 rounded-md p-4 border-black border-opacity-5"
               key={comment.id}
             >
+              <div className="mb-2 text-sm">
+                By <span className='font-semibold'>{comment.created_by}</span>
+              </div>
               {comment.content}
             </div>
           );
         })
       ))}
-
-      {formState === 'LOADING' ? (
-        <div className="border-2 text-xl font-medium rounded-md p-2 mt-8 mb-4">
-          LOADING ...
-        </div>
-      ) : (
         <Input.TextArea
+          disabled={formState === 'LOADING'}
+          value={newComment}
           className="mt-8"
           onChange={(e) => setNewComment(e.target.value)}
           label="Create Comment"
         />
-      )}
       <Button
         className="mt-4"
         size="large"
