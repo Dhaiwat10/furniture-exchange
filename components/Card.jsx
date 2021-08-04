@@ -3,7 +3,6 @@ import { useRouter } from 'next/dist/client/router';
 import { useState, useEffect } from 'react';
 import { statusUpdate } from '../pages/api/listings';
 import { Active, InActive } from './Status';
-// import SimpleImageSlider from 'react-simple-image-slider';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
 

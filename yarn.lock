@@ -2924,11 +2924,6 @@ react-responsive-carousel@^3.2.20:
     prop-types "^15.5.8"
     react-easy-swipe "^0.0.21"
 
-react-simple-image-slider@^2.1.2:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/react-simple-image-slider/-/react-simple-image-slider-2.1.2.tgz#ecf4f46ed4e75e338ef36ce7c1fec161362d9b0b"
-  integrity sha512-XpxnDEJF/HXMiGhdJNRkmCL1graacFbymPTz1DfVocM/9peU356CoOi4DkRxC8AEz4dZilme0njwBcSeWcDrXQ==
-
 react@17.0.2:
   version "17.0.2"
   resolved "https://registry.yarnpkg.com/react/-/react-17.0.2.tgz#d0b5cc516d29eb3eee383f75b62864cfb6800037"
