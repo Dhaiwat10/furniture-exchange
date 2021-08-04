@@ -101,7 +101,9 @@ export const Card = ({ listing }) => {
             <div>{listing.status === 'ACTIVE' ? <Active /> : <InActive />}</div>
             {nestedRoute && listing.created_by === user.email && (
               <Button
+                style={{ backgroundColor: '#4b4c4d', color: '#fff' }}
                 size="medium"
+                type="default"
                 disabled={statusLoading === 'LOADING'}
                 onClick={changeStatus}
                 className={`${

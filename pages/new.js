@@ -52,10 +52,10 @@ export default function Index() {
   };
 
   const thumbs = (
-    <div className="flex gap-4 items-center">
+    <div className="flex gap-4 w-full">
       {files.map((file) => (
-        <div key={file.name} className="h-64">
-          <img className="rounded-lg" src={file.preview} alt="Image" />
+        <div key={file.name} className="h-50 flex-1">
+          <img className="rounded-lg h-full" src={file.preview} alt="Image" />
         </div>
       ))}
     </div>
