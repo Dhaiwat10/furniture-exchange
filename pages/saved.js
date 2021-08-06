@@ -7,14 +7,22 @@ import { getSaved } from './api/save';
 const Saved = ({ listings }) => {
   const { user } = Auth.useUser();
   const [savedListings, setSavedListing] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const fetchSaved = useCallback(async () => {
-    getSaved(user.email)
-      .then((res) => {
-        console.log('fetchSaved response: ', res);
-        setSavedListing(res.data[0].listing_ids);
-      })
-      .catch((err) => console.log('error fetching saved Listing: ', err));
+    setLoading(true);
+    const { data, error } = await getSaved(user.email);
+    if (error) {
+      console.log('Error fetch savedListing: '.error);
+      setLoading(false);
+      return;
+    }
+
+    if (data) {
+      console.log('data from fetchSaved: ', data);
+      setSavedListing(data);
+      setLoading(false);
+    }
   }, [user.email]);
 
   useEffect(() => {
@@ -24,7 +32,7 @@ const Saved = ({ listings }) => {
   if (!savedListings || savedListings.length === 0) {
     return (
       <div className="my-2 text-xl font-medium text-center p-2 px-3 border-black ">
-        You dont have any saved listings yet.
+        {loading ? 'Loading...' : "You don't have any saved listings yet."}
       </div>
     );
   }

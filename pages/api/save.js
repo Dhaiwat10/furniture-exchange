@@ -9,9 +9,9 @@ export async function save(listingId, userEmail) {
     .select()
     .eq('user_email', userEmail);
 
-    console.log('Logging savedListing: ', savedListing)
+  console.log('Logging savedListing: ', savedListing);
 
-  if (savedListing) {
+  if (savedListing[0] && savedListing[0].listing_ids) {
     const newListingIds = [...savedListing[0].listing_ids];
 
     if (newListingIds.includes(listingId)) {
@@ -30,11 +30,11 @@ export async function save(listingId, userEmail) {
     return { savedData, saveError };
   }
 
-  const { data: createSave, error: createSaveError } = await supabase
+  const { data: savedData, error: saveError } = await supabase
     .from('saved')
     .insert([{ user_email: userEmail, listing_ids: [listingId] }]);
 
-  return { createSave, createSaveError };
+  return { savedData, saveError };
 }
 
 export async function getSaved(userEmail) {
@@ -42,5 +42,9 @@ export async function getSaved(userEmail) {
     .from('saved')
     .select('*')
     .eq('user_email', userEmail);
-  return { data, error };
+
+  return {
+    data: data[0] && data[0].listing_ids ? data[0].listing_ids : [],
+    error,
+  };
 }

@@ -60,12 +60,16 @@ const Listing = ({ listings }) => {
   };
 
   const fetchSaved = useCallback(async () => {
-    getSaved(user.email)
-      .then((res) => {
-        console.log('fetchSaved response: ', res.data);
-        setSavedListing(res.data[0].listing_ids);
-      })
-      .catch((err) => console.log('error fetching saved Listing: ', err));
+    const { data, error } = await getSaved(user.email);
+    if (error) {
+      console.log('Error fetch savedListing: '.error);
+      return;
+    }
+
+    if (data) {
+      console.log('data from fetchSaved: ', data);
+      setSavedListing(data);
+    }
   }, [user.email]);
 
   useEffect(() => {
