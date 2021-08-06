@@ -6,6 +6,7 @@ import { Active, InActive } from './Status';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
 import { save } from '../pages/api/save';
+import Image from 'next/image';
 
 export const Card = ({ listing }) => {
   const { user } = Auth.useUser();
@@ -54,6 +55,22 @@ export const Card = ({ listing }) => {
       setSaveLoading('IDLE');
     }
   };
+  const arrowStyles = {
+    position: 'absolute',
+    zIndex: 2,
+    top: 'calc(50% - 15px)',
+    width: 30,
+    height: 30,
+    cursor: 'pointer',
+  };
+
+  const indicatorStyles = {
+    background: '#fff',
+    width: 8,
+    height: 8,
+    display: 'inline-block',
+    margin: '0 8px',
+  };
 
   return (
     <div>
@@ -90,6 +107,41 @@ export const Card = ({ listing }) => {
               infiniteLoop={true}
               autoPlay={true}
               showStatus={false}
+              renderArrowPrev={(onClickHandler, hasPrev, label) =>
+                hasPrev && (
+                  <button
+                    type="button"
+                    onClick={onClickHandler}
+                    title={label}
+                    style={{ ...arrowStyles, left: 15 }}
+                  >
+                    <Image
+                      height={100}
+                      width={100}
+                      className="transform rotate-180"
+                      src="/arrow-right.png"
+                      alt="left"
+                    />
+                  </button>
+                )
+              }
+              renderArrowNext={(onClickHandler, hasNext, label) =>
+                hasNext && (
+                  <button
+                    type="button"
+                    onClick={onClickHandler}
+                    title={label}
+                    style={{ ...arrowStyles, right: 15 }}
+                  >
+                    <Image
+                      height={100}
+                      width={100}
+                      src="/arrow-right.png"
+                      alt="right"
+                    />
+                  </button>
+                )
+              }
             >
               {listing.images.map((image, index) => (
                 <div
