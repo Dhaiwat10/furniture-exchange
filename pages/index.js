@@ -24,12 +24,6 @@ export default function Home({ listings }) {
       console.log('data from fetchSaved: ', data);
       setSavedListing(data);
     }
-    // getSaved(user.email)
-    //   .then((res) => {
-    //     // console.log('fetchSaved response: ', res.data);
-    //     // setSavedListing(res.data[0].listing_ids);
-    //   })
-    //   .catch((err) => console.log('error fetching saved Listing: ', err));
   }, [user.email]);
 
   useEffect(() => {

@@ -68,7 +68,7 @@ export const Card = ({ listing }) => {
           </div>
         }
         cover={[
-          listing.images.length == 1 ? (
+          listing.images.length === 1 ? (
             <img
               className={`${!nestedRoute && 'cursor-pointer'}`}
               onClick={() => {
@@ -84,6 +84,7 @@ export const Card = ({ listing }) => {
             />
           ) : (
             <Carousel
+              key={listing.id}
               showThumbs={false}
               dynamicHeight={false}
               infiniteLoop={true}
