@@ -15,6 +15,10 @@ a {
   box-sizing: border-box;
 }
 
-/* main {
-  padding: 50px 200px;
-} */
+.sbui-typography-text {
+  width: 100%;
+}
+
+.sbui-btn-container {
+  min-width: 6rem;
+}

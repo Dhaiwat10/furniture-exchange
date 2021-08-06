@@ -20,6 +20,9 @@ const TopBar = () => {
         <Typography.Link href="/new" target="_self">
           New
         </Typography.Link>
+        <Typography.Link href="/saved" target="_self">
+          Saved
+        </Typography.Link>
       </div>
 
       {user && (
