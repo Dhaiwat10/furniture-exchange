@@ -84,7 +84,10 @@ const Listing = ({ listings }) => {
           console.log('listing: ', listing);
           return (
             <Card
-              listing={{...listing, isSaved: savedListings.includes(listing.id)}}
+              listing={{
+                ...listing,
+                isSaved: savedListings.includes(listing.id),
+              }}
               key={listing.id}
             />
           );
@@ -104,7 +107,10 @@ const Listing = ({ listings }) => {
                 key={comment.id}
               >
                 <div className="mb-2 text-sm">
-                  By <span className="font-semibold">{comment.created_by}</span>
+                  By{' '}
+                  <span className="font-semibold">
+                    {comment.created_by.split('@')[0]}
+                  </span>
                 </div>
                 {comment.content}
               </div>

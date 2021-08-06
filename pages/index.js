@@ -1,9 +1,10 @@
-import { Auth } from '@supabase/ui';
+import { Auth, Typography } from '@supabase/ui';
+import Link from 'next/link';
 import { useCallback, useEffect, useState } from 'react';
 import { Card } from '../components';
 import { getListingImages, getListings } from './api/listings';
 import { getSaved } from './api/save';
-import { search } from './api/search'
+import { search } from './api/search';
 
 export default function Home({ listings }) {
   const { user } = Auth.useUser();
@@ -30,6 +31,28 @@ export default function Home({ listings }) {
   useEffect(() => {
     fetchSaved();
   }, [user.email, fetchSaved]);
+
+  if (listings.length < 1) {
+    return (
+      <div className="py-12 text-center">
+        <Typography.Text type="secondary" style={{ fontSize: '5rem' }}>
+          :(
+        </Typography.Text>
+
+        <div className="mt-6">
+          <Typography.Text type="secondary">
+            We couldnt find anything for you.
+          </Typography.Text>
+        </div>
+
+        <Link passHref href="/new">
+          <Typography.Link target="_self" className="underline">
+            Create a listing instead
+          </Typography.Link>
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div>

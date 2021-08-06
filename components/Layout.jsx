@@ -1,34 +1,47 @@
 import Head from 'next/head';
 import { Typography, Button, Auth, Input } from '@supabase/ui';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { SupabaseContext } from './SupabaseContext';
 import { useRouter } from 'next/dist/client/router';
+import NextLink from 'next/link';
 
 const TopBar = () => {
   const { user } = Auth.useUser();
   const supabaseClient = useContext(SupabaseContext);
 
-  useEffect(() => {
-    console.log(supabaseClient);
-  }, [supabaseClient]);
-
   return (
-    <div className="mb-12 my-6 flex items-center">
-      <div className="flex gap-4">
-        <Typography.Link href="/" target="_self">
-          Home
-        </Typography.Link>
-        <Typography.Link href="/new" target="_self">
-          New
-        </Typography.Link>
-        <Typography.Link href="/saved" target="_self">
-          Saved
+    <div className="mb-6 my-6 flex items-center">
+      <div className="flex gap-6">
+        <NextLink href="/">
+          <Typography.Link href="/" target="_self">
+            Home
+          </Typography.Link>
+        </NextLink>
+
+        <NextLink href="/new">
+          <Typography.Link href="/new" target="_self">
+            New
+          </Typography.Link>
+        </NextLink>
+
+        <NextLink href="/saved">
+          <Typography.Link href="/saved" target="_self">
+            Saved
+          </Typography.Link>
+        </NextLink>
+
+        <Typography.Link
+          href="https://github.com/dhaiwat10/furniture-exchange#furniture-exchange-x-supabase-%EF%B8%8F"
+          target="_blank"
+          style={{ color: '#bbb' }}
+        >
+          Source
         </Typography.Link>
       </div>
 
       {user && (
         <div className="flex items-center ml-auto mr-0 gap-4">
-          <Typography.Text>{user && user.email}</Typography.Text>
+          {/* <Typography.Text>{user && user.email}</Typography.Text> */}
           <Button
             style={{ marginLeft: 'auto', marginRight: 0 }}
             onClick={() => supabaseClient.auth.signOut()}
@@ -59,19 +72,50 @@ const SearchBar = () => {
   };
 
   return (
-    <div onKeyUp={onKeyPress} className="flex items-center gap-6">
+    <div
+      onKeyUp={onKeyPress}
+      className="flex items-center gap-6 mx-auto justify-center"
+    >
       <Input
         value={fromQuery}
         onChange={(e) => setFromQuery(e.target.value)}
-        placeholder="I'm moving from..."
+        placeholder="Moving from..."
       />
       <Input
         value={toQuery}
         onChange={(e) => setToQuery(e.target.value)}
-        placeholder="I'm moving to..."
+        placeholder="Moving to..."
       />
       <Button onClick={onClick}>Search</Button>
     </div>
+  );
+};
+
+const Link = ({ label, href }) => {
+  return (
+    <a
+      href={href}
+      className="underline"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      {label}
+    </a>
+  );
+};
+
+const Footer = () => {
+  return (
+    <footer
+      style={{ left: '50%', transform: 'translateX(-50%)', zIndex: 2000 }}
+      className="text-center fixed bottom-6 bg-black text-white rounded-lg p-4 shadow"
+    >
+      Made with ❤️ in 🇮🇳 by&nbsp;
+      <Link href="https://github.com/dhaiwat10" label="Dhaiwat" />
+      ,&nbsp;
+      <Link href="https://github.com/nazeeh21" label="Nazeeh" /> &amp;&nbsp;
+      <Link href="https://github.com/miralsuthar" label="Miral" />
+    </footer>
   );
 };
 
@@ -86,7 +130,9 @@ export const Layout = ({ children }) => {
       <main className="w-11/12 sm:w-9/12 mx-auto">
         <TopBar />
         <SearchBar />
-        {children}
+        <hr className="mt-6" />
+        <div style={{ height: '85vh', overflowY: 'scroll' }}>{children}</div>
+        <Footer />
       </main>
     </>
   );

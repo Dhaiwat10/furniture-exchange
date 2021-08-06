@@ -1,4 +1,4 @@
-import { Auth, Card as SupabaseCard, Button } from '@supabase/ui';
+import { Auth, Card as SupabaseCard, Button, Typography } from '@supabase/ui';
 import { useRouter } from 'next/dist/client/router';
 import { useEffect, useState } from 'react';
 import { statusUpdate } from '../pages/api/listings';
@@ -72,15 +72,29 @@ export const Card = ({ listing }) => {
     margin: '0 8px',
   };
 
+  if (listing.images.length < 1) {
+    return null;
+  }
+
   return (
-    <div>
+    <div
+      className={!nestedRoute && 'cursor-pointer'}
+      onClick={() => {
+        if (nestedRoute) {
+          return;
+        }
+        router.push(`listing/${listing.id}`);
+      }}
+    >
       <SupabaseCard
         title={
           <div className="flex w-full justify-between items-center">
-            <div>
-              Created by
-              <div>${listing.created_by}</div>
-            </div>
+            <Typography.Text type="secondary">
+              Created by&nbsp;
+              <Typography.Text>
+                {listing.created_by.split('@')[0]}
+              </Typography.Text>
+            </Typography.Text>
             <div>{listing.status === 'ACTIVE' ? <Active /> : <InActive />}</div>
           </div>
         }

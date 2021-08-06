@@ -26,7 +26,14 @@ export default function Index() {
     e.preventDefault();
     setFormState('LOADING');
 
-    console.log(files);
+    if (
+      files.length === 0 ||
+      formData.from_city === '' ||
+      formData.to_city === ''
+    ) {
+      setFormState('ERROR');
+      return;
+    }
 
     const image_file_names = files.map((file, idx) => {
       const fileExt = file.name.split('.').pop();
@@ -70,7 +77,7 @@ export default function Index() {
           </Alert>
         </div>
       ) : (
-        <>
+        <div className="mt-12">
           <Typography.Text strong style={{ fontSize: '2rem' }}>
             Create a listing
           </Typography.Text>
@@ -114,8 +121,13 @@ export default function Index() {
             >
               Create
             </Button>
+            {formState === 'ERROR' && (
+              <Typography.Text type="danger">
+                Something went wrong. Try again.
+              </Typography.Text>
+            )}
           </form>
-        </>
+        </div>
       )}
     </div>
   );
