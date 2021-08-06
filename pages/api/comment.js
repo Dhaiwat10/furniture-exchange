@@ -13,7 +13,7 @@ export async function createComment(comment, oldComments) {
 
     await supabase
       .from('listings')
-      .update({ comment_ids: oldComments })
+      .update({ comment_ids: oldComments }) // TODO: optimization
       .eq('id', comment.parent_listing_id);
 
     return { error, data };

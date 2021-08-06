@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Card } from '../components';
 import { getListingImages, getListings } from './api/listings';
 import { getSaved } from './api/save';
+import { search } from './api/search'
 
 export default function Home({ listings }) {
   const { user } = Auth.useUser();
@@ -48,7 +49,10 @@ export default function Home({ listings }) {
 }
 
 export async function getServerSideProps(context) {
-  const { listings } = await getListings();
+  const fromQuery = context.query.from || '';
+  const toQuery = context.query.to || '';
+  const { data: listings, error } = await search(fromQuery, toQuery);
+  // const { listings } = await getListings();
 
   for await (let listing of listings) {
     const images = await getListingImages(listing);
