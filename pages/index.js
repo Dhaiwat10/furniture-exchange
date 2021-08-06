@@ -9,17 +9,27 @@ export default function Home({ listings }) {
   const [savedListings, setSavedListing] = useState([]);
 
   useEffect(() => {
-    console.log('savedListings: ', savedListings)
-    console.log('listings: ', listings)
-  }, [savedListings, listings])
+    console.log('savedListings: ', savedListings);
+    console.log('listings: ', listings);
+  }, [savedListings, listings]);
 
   const fetchSaved = useCallback(async () => {
-    getSaved(user.email)
-      .then((res) => {
-        console.log('fetchSaved response: ', res.data);
-        setSavedListing(res.data[0].listing_ids);
-      })
-      .catch((err) => console.log('error fetching saved Listing: ', err));
+    const { data, error } = await getSaved(user.email);
+    if (error) {
+      console.log('Error fetch savedListing: '.error);
+      return;
+    }
+
+    if (data) {
+      console.log('data from fetchSaved: ', data);
+      setSavedListing(data);
+    }
+    // getSaved(user.email)
+    //   .then((res) => {
+    //     // console.log('fetchSaved response: ', res.data);
+    //     // setSavedListing(res.data[0].listing_ids);
+    //   })
+    //   .catch((err) => console.log('error fetching saved Listing: ', err));
   }, [user.email]);
 
   useEffect(() => {
@@ -31,7 +41,10 @@ export default function Home({ listings }) {
       <div className="mx-auto grid lg:grid-cols-2 flex-col gap-6 my-6">
         {listings.map((listing) => (
           <Card
-            listing={{...listing, isSaved: savedListings.includes(listing.id)}}
+            listing={{
+              ...listing,
+              isSaved: savedListings.includes(listing.id),
+            }}
             key={listing.id}
           />
         ))}
