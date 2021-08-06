@@ -1,7 +1,8 @@
 import Head from 'next/head';
-import { Typography, Button, Auth } from '@supabase/ui';
-import { useContext, useEffect } from 'react';
+import { Typography, Button, Auth, Input } from '@supabase/ui';
+import { useContext, useEffect, useState } from 'react';
 import { SupabaseContext } from './SupabaseContext';
+import { useRouter } from 'next/dist/client/router';
 
 const TopBar = () => {
   const { user } = Auth.useUser();
@@ -40,6 +41,40 @@ const TopBar = () => {
   );
 };
 
+const SearchBar = () => {
+  const router = useRouter();
+
+  const [fromQuery, setFromQuery] = useState(router.query.from || '');
+  const [toQuery, setToQuery] = useState(router.query.to || '');
+
+  const onClick = () => {
+    router.push(`/?from=${fromQuery}&to=${toQuery}`);
+  };
+
+  const onKeyPress = (e) => {
+    console.log(e.key, e.ctrlKey);
+    if ((e.key === 'Enter' && e.ctrlKey) || e.key === 'Enter') {
+      onClick();
+    }
+  };
+
+  return (
+    <div onKeyUp={onKeyPress} className="flex items-center gap-6">
+      <Input
+        value={fromQuery}
+        onChange={(e) => setFromQuery(e.target.value)}
+        placeholder="I'm moving from..."
+      />
+      <Input
+        value={toQuery}
+        onChange={(e) => setToQuery(e.target.value)}
+        placeholder="I'm moving to..."
+      />
+      <Button onClick={onClick}>Search</Button>
+    </div>
+  );
+};
+
 export const Layout = ({ children }) => {
   return (
     <>
@@ -50,6 +85,7 @@ export const Layout = ({ children }) => {
       </Head>
       <main className="w-11/12 sm:w-9/12 mx-auto">
         <TopBar />
+        <SearchBar />
         {children}
       </main>
     </>
