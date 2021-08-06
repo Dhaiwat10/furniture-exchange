@@ -10,13 +10,10 @@ const supabase = createClient(projectUrl, process.env.NEXT_PUBLIC_SUPABASE_KEY);
 const Container = ({ children, Component, pageProps }) => {
   const { user } = Auth.useUser();
 
-  if (user)
-    return (
-      <SupabaseContext.Provider value={supabase}>
-        <Component {...pageProps} />
-      </SupabaseContext.Provider>
-    );
-
+  if (user) {
+    console.log(supabase);
+    return <Component {...pageProps} />;
+  }
   if (!user) {
     return <>{children}</>;
   }
@@ -25,11 +22,13 @@ const Container = ({ children, Component, pageProps }) => {
 function MyApp({ Component, pageProps }) {
   return (
     <Auth.UserContextProvider supabaseClient={supabase}>
-      <Layout>
-        <Container Component={Component} pageProps={pageProps}>
-          <Auth supabaseClient={supabase} />
-        </Container>
-      </Layout>
+      <SupabaseContext.Provider value={supabase}>
+        <Layout>
+          <Container Component={Component} pageProps={pageProps}>
+            <Auth supabaseClient={supabase} />
+          </Container>
+        </Layout>
+      </SupabaseContext.Provider>
     </Auth.UserContextProvider>
   );
 }

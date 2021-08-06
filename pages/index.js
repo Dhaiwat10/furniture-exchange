@@ -4,7 +4,7 @@ import { getListingImages, getListings } from './api/listings';
 export default function Home({ listings }) {
   return (
     <div>
-      <div className=" mx-auto  grid lg:grid-cols-2 flex-col gap-6 mt-6">
+      <div className="mx-auto grid lg:grid-cols-2 flex-col gap-6 my-6">
         {listings.map((listing) => (
           <Card listing={listing} key={listing.id} />
         ))}

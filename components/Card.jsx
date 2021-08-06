@@ -1,6 +1,6 @@
 import { Auth, Card as SupabaseCard, Button } from '@supabase/ui';
 import { useRouter } from 'next/dist/client/router';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { statusUpdate } from '../pages/api/listings';
 import { Active, InActive } from './Status';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
@@ -34,14 +34,7 @@ export const Card = ({ listing }) => {
   };
 
   return (
-    <div
-    // onClick={() => {
-    //   if (nestedRoute) {
-    //     return;
-    //   }
-    //   router.push(`listing/${listing.id}`);
-    // }}
-    >
+    <div>
       <SupabaseCard
         className={`${!nestedRoute && 'cursor-pointer'}`}
         title={`Created by ${listing.created_by}`}

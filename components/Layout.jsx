@@ -1,11 +1,15 @@
 import Head from 'next/head';
 import { Typography, Button, Auth } from '@supabase/ui';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { SupabaseContext } from './SupabaseContext';
 
 const TopBar = () => {
   const { user } = Auth.useUser();
   const supabaseClient = useContext(SupabaseContext);
+
+  useEffect(() => {
+    console.log(supabaseClient);
+  }, [supabaseClient]);
 
   return (
     <div className="mb-12 my-6 flex items-center">
@@ -18,15 +22,17 @@ const TopBar = () => {
         </Typography.Link>
       </div>
 
-      <div className="flex items-center ml-auto mr-0 gap-4">
-        <Typography.Text>{user && user.email}</Typography.Text>
-        <Button
-          style={{ marginLeft: 'auto', marginRight: 0 }}
-          onClick={() => supabaseClient.auth.signOut()}
-        >
-          Sign out
-        </Button>
-      </div>
+      {user && (
+        <div className="flex items-center ml-auto mr-0 gap-4">
+          <Typography.Text>{user && user.email}</Typography.Text>
+          <Button
+            style={{ marginLeft: 'auto', marginRight: 0 }}
+            onClick={() => supabaseClient.auth.signOut()}
+          >
+            Sign out
+          </Button>
+        </div>
+      )}
     </div>
   );
 };
