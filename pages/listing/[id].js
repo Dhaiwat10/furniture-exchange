@@ -4,6 +4,7 @@ import { getListingImages, getListings } from '../api/listings';
 import { createComment, getComments } from '../api/comment';
 import { Auth, Button, Input } from '@supabase/ui';
 import { Card } from '../../components/Card';
+import { getSaved, save } from '../api/save';
 
 const Listing = ({ listings }) => {
   const { user } = Auth.useUser();
@@ -13,6 +14,7 @@ const Listing = ({ listings }) => {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
   const [formState, setFormState] = useState('IDLE');
+  const [savedListings, setSavedListing] = useState([]);
 
   const fetchComments = useCallback(async () => {
     const comments = getComments(id)
@@ -32,8 +34,9 @@ const Listing = ({ listings }) => {
     e.preventDefault();
     setFormState('LOADING');
 
-    let oldComments = listings.filter((listing) => listing.id === id)[0].comment_ids;
-    
+    let oldComments = listings.filter((listing) => listing.id === id)[0]
+      .comment_ids;
+
     if (oldComments && oldComments.length > 0) {
       oldComments = [
         ...listings.filter((listing) => listing.id === id)[0].comment_ids,
@@ -46,12 +49,28 @@ const Listing = ({ listings }) => {
       content: newComment,
     };
 
-    const { data } = await createComment(comment, oldComments && oldComments.length > 0 ? oldComments : []);
+    const { data } = await createComment(
+      comment,
+      oldComments && oldComments.length > 0 ? oldComments : []
+    );
     console.log('data from comment uploading: ', data);
     setFormState('SUCCESS');
     setNewComment('');
     fetchComments();
   };
+
+  const fetchSaved = useCallback(async () => {
+    getSaved(user.email)
+      .then((res) => {
+        console.log('fetchSaved response: ', res.data);
+        setSavedListing(res.data[0].listing_ids);
+      })
+      .catch((err) => console.log('error fetching saved Listing: ', err));
+  }, [user.email]);
+
+  useEffect(() => {
+    fetchSaved();
+  }, [user.email, fetchSaved]);
 
   return (
     <div>
@@ -59,13 +78,18 @@ const Listing = ({ listings }) => {
         .filter((listing) => listing.id === id)
         .map((listing) => {
           console.log('listing: ', listing);
-          return <Card listing={listing} key={listing.id} />;
+          return (
+            <Card
+              listing={{...listing, isSaved: savedListings.includes(listing.id)}}
+              key={listing.id}
+            />
+          );
         })}
 
       <div className="text-xl mt-4 font-semibold">Comments</div>
       {comments.comments &&
         (comments.comments.length === 0 ? (
-          <div className="my-2 text-lg border-2 rounded-md p4 border-black border-opacity-5">
+          <div className="my-2 text-lg border-2 rounded-md p-2 px-3 border-black border-opacity-10">
             This listing has no comments yet.
           </div>
         ) : (
