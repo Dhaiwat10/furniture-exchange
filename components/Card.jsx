@@ -185,8 +185,12 @@ export const Card = ({ listing }) => {
       >
         <div className="flex justify-between">
           <SupabaseCard.Meta
-            title={`${listing.from_city} - ${listing.to_city}`}
-            description="Description"
+            title={
+              <Typography.Text>
+                From <b>{listing.from_city}</b> to <b>{listing.to_city}</b>
+              </Typography.Text>
+            }
+            description={nestedRoute ? listing.description : ``}
           />
           <div className="flex items-center">
             {nestedRoute && listing.created_by === user.email && (
@@ -203,7 +207,7 @@ export const Card = ({ listing }) => {
                   statusLoading === 'LOADING' && 'cursor-not-allowed'
                 } font-semibold border-2 border-gray-600 rounded-md mr-5 p-2 text-white`}
               >
-                Mark as {listing.status === 'ACTIVE' ? 'CLOSE' : 'OPEN'}
+                Mark as {listing.status === 'ACTIVE' ? 'CLOSED' : 'OPEN'}
               </Button>
             )}
             <div

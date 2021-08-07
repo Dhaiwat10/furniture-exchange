@@ -120,18 +120,27 @@ const Footer = () => {
 };
 
 export const Layout = ({ children }) => {
+  const { user } = Auth.useUser();
+
   return (
     <>
       <Head>
-        <title>Furniture Exchange</title>
+        <title>Furniture Exchange 🪑</title>
         <meta name="description" content="Supabase hackathon entry" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="w-11/12 sm:w-9/12 mx-auto">
-        <TopBar />
-        <SearchBar />
-        <hr className="mt-6" />
-        <div style={{ height: '85vh', overflowY: 'scroll' }}>{children}</div>
+        {user && (
+          <>
+            <TopBar />
+            <SearchBar />
+            <hr className="mt-6" />
+          </>
+        )}
+
+        <div style={{ height: '85vh', overflowY: 'scroll' }} className="py-12">
+          {children}
+        </div>
         <Footer />
       </main>
     </>

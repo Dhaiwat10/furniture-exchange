@@ -6,7 +6,11 @@ import { useDropzone } from 'react-dropzone';
 export default function Index() {
   const { user } = Auth.useUser();
 
-  const [formData, setFormData] = useState({ from_city: '', to_city: '' });
+  const [formData, setFormData] = useState({
+    from_city: '',
+    to_city: '',
+    description: '',
+  });
   const [formState, setFormState] = useState('IDLE');
   const [files, setFiles] = useState([]);
 
@@ -61,8 +65,12 @@ export default function Index() {
   const thumbs = (
     <div className="flex gap-4 w-full">
       {files.map((file) => (
-        <div key={file.name} className="h-50 flex-1">
-          <img className="rounded-lg h-full" src={file.preview} alt="Image" />
+        <div key={file.name} className="h-32">
+          <img
+            className="rounded-lg object-cover h-full border-2"
+            src={file.preview}
+            alt="Image"
+          />
         </div>
       ))}
     </div>
@@ -77,7 +85,7 @@ export default function Index() {
           </Alert>
         </div>
       ) : (
-        <div className="mt-12">
+        <div>
           <Typography.Text strong style={{ fontSize: '2rem' }}>
             Create a listing
           </Typography.Text>
@@ -85,14 +93,14 @@ export default function Index() {
           <form className="flex flex-col gap-6 mt-6 w-11/12 lg:w-6/12 lg:mx-0 mx-auto">
             <div className="flex gap-12 flex-col lg:flex-row">
               <Input
-                label="Moving from"
+                label="Moving from *"
                 value={formData.from_city}
                 onChange={(e) =>
                   setFormData({ ...formData, from_city: e.target.value })
                 }
               />
               <Input
-                label="Moving to"
+                label="Moving to *"
                 value={formData.to_city}
                 onChange={(e) =>
                   setFormData({ ...formData, to_city: e.target.value })
@@ -100,7 +108,15 @@ export default function Index() {
               />
             </div>
 
-            <Typography.Text>Upload images</Typography.Text>
+            <Input.TextArea
+              label="Description"
+              value={formData.description}
+              onChange={(e) =>
+                setFormData({ ...formData, description: e.target.value })
+              }
+            />
+
+            <Typography.Text>Upload images *</Typography.Text>
             <div
               {...getRootProps()}
               className="cursor-pointer p-6 border-2 border-dashed rounded-lg text-center"
@@ -109,7 +125,7 @@ export default function Index() {
               {isDragActive ? (
                 <p>Drop the files here ...</p>
               ) : (
-                <p>Drag n drop some files here, or click to select files</p>
+                <p>Drag n drop some files here, or click to select files.</p>
               )}
             </div>
             <aside>{thumbs}</aside>
@@ -121,6 +137,9 @@ export default function Index() {
             >
               Create
             </Button>
+            <Typography.Text type="secondary">
+              Please for the love of god dont upload porn
+            </Typography.Text>
             {formState === 'ERROR' && (
               <Typography.Text type="danger">
                 Something went wrong. Try again.

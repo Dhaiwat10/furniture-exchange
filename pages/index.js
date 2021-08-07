@@ -34,7 +34,7 @@ export default function Home({ listings }) {
 
   if (listings.length < 1) {
     return (
-      <div className="py-12 text-center">
+      <div className="py-6 text-center">
         <Typography.Text type="secondary" style={{ fontSize: '5rem' }}>
           :(
         </Typography.Text>
@@ -56,7 +56,7 @@ export default function Home({ listings }) {
 
   return (
     <div>
-      <div className="mx-auto grid lg:grid-cols-2 flex-col gap-6 my-6">
+      <div className="mx-auto grid lg:grid-cols-2 flex-col gap-6">
         {listings.map((listing) => (
           <Card
             listing={{

@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/dist/client/router';
 import { getListingImages, getListings } from '../api/listings';
 import { createComment, getComments } from '../api/comment';
-import { Auth, Button, Input } from '@supabase/ui';
+import { Auth, Button, Input, Typography } from '@supabase/ui';
 import { Card } from '../../components/Card';
 import { getSaved, save } from '../api/save';
 
@@ -93,12 +93,12 @@ const Listing = ({ listings }) => {
           );
         })}
 
+      <hr className='mt-8' />
+
       <div className="text-xl mt-4 font-semibold">Comments</div>
       {comments.comments &&
         (comments.comments.length === 0 ? (
-          <div className="my-2 text-lg border-2 rounded-md p-2 px-3 border-black border-opacity-10">
-            This listing has no comments yet.
-          </div>
+          <Typography.Text type="secondary">This listing has no comments yet.</Typography.Text>
         ) : (
           comments.comments.map((comment) => {
             return (
@@ -122,7 +122,7 @@ const Listing = ({ listings }) => {
         value={newComment}
         className="mt-8"
         onChange={(e) => setNewComment(e.target.value)}
-        label="Create Comment"
+        label="Interested? Add a comment"
       />
       <Button
         disabled={newComment === ''}
