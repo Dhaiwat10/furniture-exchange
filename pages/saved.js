@@ -38,7 +38,7 @@ const Saved = ({ listings }) => {
   }
 
   return (
-    <div className="mx-auto grid lg:grid-cols-2 flex-col gap-6 my-6">
+    <div className="mx-auto grid lg:grid-cols-2 flex-col gap-6">
       {listings
         .filter((listing) => savedListings.includes(listing.id))
         .map((listing) => (

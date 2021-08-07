@@ -93,26 +93,27 @@ const Listing = ({ listings }) => {
           );
         })}
 
-      <hr className='mt-8' />
+      <hr className="mt-8" />
 
       <div className="text-xl mt-4 font-semibold">Comments</div>
       {comments.comments &&
         (comments.comments.length === 0 ? (
-          <Typography.Text type="secondary">This listing has no comments yet.</Typography.Text>
+          <Typography.Text type="secondary">
+            This listing has no comments yet.
+          </Typography.Text>
         ) : (
           comments.comments.map((comment) => {
             return (
               <div
-                className="my-2 text-lg border-2 rounded-md p-4 border-black border-opacity-5"
+                style={{ borderWidth: '1px' }}
+                className="my-2 text-lg rounded-md p-4 border-black border-opacity-20"
                 key={comment.id}
               >
-                <div className="mb-2 text-sm">
-                  By{' '}
-                  <span className="font-semibold">
-                    {comment.created_by.split('@')[0]}
-                  </span>
-                </div>
-                {comment.content}
+                <Typography.Text>{comment.content}</Typography.Text>
+                <br />
+                <Typography.Text type="secondary">
+                  — {comment.created_by.split('@')[0]}
+                </Typography.Text>
               </div>
             );
           })

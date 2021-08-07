@@ -65,7 +65,6 @@ const SearchBar = () => {
   };
 
   const onKeyPress = (e) => {
-    console.log(e.key, e.ctrlKey);
     if ((e.key === 'Enter' && e.ctrlKey) || e.key === 'Enter') {
       onClick();
     }

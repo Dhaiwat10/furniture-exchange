@@ -13,7 +13,6 @@ export const Card = ({ listing }) => {
   const [statusLoading, setStatusLoading] = useState('IDLE');
   const [saveLoading, setSaveLoading] = useState('IDLE');
 
-  // console.log('listing from nested route: ', listing);
   const router = useRouter();
 
   const nestedRoute = router.pathname === '/listing/[id]' ? true : false;
@@ -22,10 +21,7 @@ export const Card = ({ listing }) => {
     setStatusLoading('LOADING');
     const { data, error } = await statusUpdate(listing.id, listing.status);
 
-    console.log('data from statuusUpdate: ', data);
-
     if (error) {
-      console.log('Error while updating status: ', error);
       setStatusLoading('ERROR');
       return;
     }
@@ -36,16 +32,11 @@ export const Card = ({ listing }) => {
     setStatusLoading('IDLE');
   };
 
-  useEffect(() => {
-    console.log('isSaved changed');
-  }, [listing.isSaved]);
-
   const saveClicked = async () => {
     setSaveLoading('LOADING');
     const { savedData, saveError } = await save(listing.id, user.email);
 
     if (saveError) {
-      console.log('Error while saving: ', saveError);
       setSaveLoading('ERROR');
       return;
     }
@@ -72,23 +63,25 @@ export const Card = ({ listing }) => {
     margin: '0 8px',
   };
 
+  const onClick = () => {
+    if (nestedRoute) {
+      return;
+    }
+    router.push(`listing/${listing.id}`);
+  };
+
   if (listing.images.length < 1) {
     return null;
   }
 
   return (
-    <div
-      className={!nestedRoute && 'cursor-pointer'}
-      onClick={() => {
-        if (nestedRoute) {
-          return;
-        }
-        router.push(`listing/${listing.id}`);
-      }}
-    >
+    <div>
       <SupabaseCard
         title={
-          <div className="flex w-full justify-between items-center">
+          <div
+            onClick={onClick}
+            className="flex w-full justify-between items-center"
+          >
             <Typography.Text type="secondary">
               Created by&nbsp;
               <Typography.Text>
@@ -186,9 +179,11 @@ export const Card = ({ listing }) => {
         <div className="flex justify-between">
           <SupabaseCard.Meta
             title={
-              <Typography.Text>
-                From <b>{listing.from_city}</b> to <b>{listing.to_city}</b>
-              </Typography.Text>
+              <div onClick={onClick}>
+                <Typography.Text>
+                  From <b>{listing.from_city}</b> to <b>{listing.to_city}</b>
+                </Typography.Text>
+              </div>
             }
             description={nestedRoute ? listing.description : ``}
           />

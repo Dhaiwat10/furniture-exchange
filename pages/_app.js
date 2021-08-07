@@ -11,7 +11,6 @@ const Container = ({ children, Component, pageProps }) => {
   const { user } = Auth.useUser();
 
   if (user) {
-    console.log(supabase);
     return <Component {...pageProps} />;
   }
   if (!user) {

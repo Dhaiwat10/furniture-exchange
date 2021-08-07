@@ -10,11 +10,6 @@ export default function Home({ listings }) {
   const { user } = Auth.useUser();
   const [savedListings, setSavedListing] = useState([]);
 
-  useEffect(() => {
-    console.log('savedListings: ', savedListings);
-    console.log('listings: ', listings);
-  }, [savedListings, listings]);
-
   const fetchSaved = useCallback(async () => {
     const { data, error } = await getSaved(user.email);
     if (error) {
