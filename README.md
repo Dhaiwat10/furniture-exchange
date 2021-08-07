@@ -12,3 +12,6 @@ Like our very creative name suggests, it is a furniture swap site for people mov
 Suppose you are moving cities and you've got a shitload of furniture. Let's be real, no one wants to move furniture or, worse yet, sell & buy new furniture after moving. It's a hassle. So why not just...trade it?
 
 For example if you are moving from LA to SF, you can a) Post a listing on the app saying that you are willing to trade furniture, or b) Search for existing listings on the app matching your needs (i.e. a person moving from SF to LA). It's that simple.
+
+## Tech
+We ❤️ Supabase. We used Supabase (ofc), Supabase UI, Supabase Auth & Supabase Storage — proper SupaStack!
