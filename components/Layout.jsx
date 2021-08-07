@@ -11,7 +11,7 @@ const TopBar = () => {
 
   return (
     <div className="mb-6 my-6 flex items-center">
-      <div className="flex gap-6">
+      <div className="flex gap-4 sm:gap-6">
         <NextLink href="/">
           <Typography.Link href="/" target="_self">
             Home
@@ -73,7 +73,7 @@ const SearchBar = () => {
   return (
     <div
       onKeyUp={onKeyPress}
-      className="flex items-center gap-6 mx-auto justify-center"
+      className="flex items-center w-screen sm:w-auto gap-6 mx-auto justify-center"
     >
       <Input
         value={fromQuery}
@@ -107,7 +107,7 @@ const Footer = () => {
   return (
     <footer
       style={{ left: '50%', transform: 'translateX(-50%)', zIndex: 2000 }}
-      className="text-center fixed bottom-6 bg-black text-white rounded-lg p-4 shadow"
+      className="text-center fixed w-11/12 sm:w-auto bottom-6 bg-black text-white rounded-lg p-4 shadow"
     >
       Made with ❤️ in 🇮🇳 by&nbsp;
       <Link href="https://github.com/dhaiwat10" label="Dhaiwat" />
